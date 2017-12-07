@@ -7,7 +7,7 @@ Real-time compilation by monitoring file changes in a specified directory
 ### install
 
 ```go
-go get github.com/silenceper/gowatch
+go get github.com/jackywu/gowatch
 ```
 
 After the installation is complete, you can use the `gowatch` command to execute in the main package:
