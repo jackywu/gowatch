@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	path "path/filepath"
 	"runtime"
@@ -60,7 +61,8 @@ func main() {
 	}
 
 	if cmdArgs != "" {
-		cfg.CmdArgs = strings.Split(cmdArgs, ",")
+		cfg.CmdArgs = strings.Split(cmdArgs, " ")
+
 	}
 
 	//监听的文件后缀

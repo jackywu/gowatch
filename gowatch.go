@@ -163,10 +163,9 @@ func Start(appname string) {
 		appname = "./" + appname
 	}
 
-	cmd = exec.Command(appname)
+	cmd = exec.Command(appname, cfg.CmdArgs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	cmd.Args = append([]string{appname}, cfg.CmdArgs...)
 	cmd.Env = append(os.Environ(), cfg.Envs...)
 
 	go cmd.Run()
