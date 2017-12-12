@@ -20,10 +20,22 @@ After the installation is complete, you can use the `gowatch` command to execute
 
 - -o : Optional，specify the target build path
 - -p : Optional，Specified the need to build the package, which can also be a single file
+- -g : Optional, specify the time gap during which gowatch will ignore any file modification event
+- -x : Optional, specify the file's modification event will be ignored which match the regex-pattern
 
 **example:**
 
-`gowatch -o ./bin/demo -p ./cmd/demo`
+simple example:
+`gowatch -o cmd/apiserver.go -p cmd/apiserver`
+
+with args:
+`gowatch -o cmd/apiserver.go -p cmd/apiserver -args "start --binding-address=0.0.0.0"`
+
+exclude *_test.go file:
+`gowatch -o cmd/apiserver.go -p cmd/apiserver -x ".*_test.go" -args "start --binding-address=0.0.0.0 --binding-port=1234"`
+
+with time gap(in 60 seconds, any file modification event will be ignored):
+`gowatch -o cmd/apiserver.go -g 60 -p cmd/apiserver -x ".*_test.go" -args "start --binding-address=0.0.0.0"`
 
 ### config file
 
@@ -55,11 +67,15 @@ vendor_watch: false
 # do not need to listen to the directory
 excluded_paths:
     - path
+# do not watch these file which match the regex-pattern
+ExcludedPattern: ""
 # main package path, can also be a single file, multiple files separated by commas
 build_pkg: ""
 # build tags
 build_tags: ""
 
+# any file modification event will be ignored during this time gap, unit: second
+BuildGap: 0
 ```
 
 
