@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	path "path/filepath"
 	"runtime"
@@ -10,12 +9,13 @@ import (
 )
 
 var (
-	cfg      *config
-	currpath string
-	exit     chan bool
-	output   string
-	buildPkg string
-	cmdArgs  string
+	cfg             *config
+	currpath        string
+	exit            chan bool
+	output          string
+	buildPkg        string
+	cmdArgs         string
+	excludedPattern string
 
 	started chan bool
 )
@@ -23,7 +23,8 @@ var (
 func init() {
 	flag.StringVar(&output, "o", "", "go build output")
 	flag.StringVar(&buildPkg, "p", "", "go build packages")
-	flag.StringVar(&cmdArgs, "args", "", "app run args,separated by commas. like: -args='-host=:8080,-name=demo'")
+	flag.StringVar(&cmdArgs, "args", "", "app run args,separated by space. like: -args='-host=:8080  -name=demo'")
+	flag.StringVar(&excludedPattern, "x", "", "exclude modified event of specific file pattern")
 }
 
 var ignoredFilesRegExps = []string{
@@ -67,6 +68,14 @@ func main() {
 
 	//监听的文件后缀
 	cfg.WatchExts = append(cfg.WatchExts, ".go")
+
+	//命令行优先级大于配置文件
+	if excludedPattern != "" {
+		cfg.ExcludedPattern = excludedPattern
+	}
+	if cfg.ExcludedPattern != "" {
+		ignoredFilesRegExps = append(ignoredFilesRegExps, cfg.ExcludedPattern)
+	}
 
 	runApp()
 }

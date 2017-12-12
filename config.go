@@ -26,7 +26,8 @@ type config struct {
 	//vendor 目录下的文件是否也监听
 	VendorWatch bool `yaml:"vendor_watch"`
 	//不需要监听的目录
-	ExcludedPaths []string `yaml:"excluded_paths"`
+	ExcludedPaths   []string `yaml:"excluded_paths"`
+	ExcludedPattern string   `yaml:"excluded_pattern"`
 	//需要编译的包或文件,优先使用-p参数
 	BuildPkg string `yaml:"build_pkg"`
 	//在go build 时期接收的-tags参数
