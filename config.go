@@ -32,6 +32,8 @@ type config struct {
 	BuildPkg string `yaml:"build_pkg"`
 	//在go build 时期接收的-tags参数
 	BuildTags string `yaml:"build_tags"`
+	//在指定时间段内忽略所有编译事件
+	BuildGap int64 `yaml:"build_gap"`
 }
 
 func parseConfig() *config {

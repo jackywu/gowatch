@@ -14,6 +14,7 @@ var (
 	exit            chan bool
 	output          string
 	buildPkg        string
+	buildGap        int64
 	cmdArgs         string
 	excludedPattern string
 
@@ -23,6 +24,7 @@ var (
 func init() {
 	flag.StringVar(&output, "o", "", "go build output")
 	flag.StringVar(&buildPkg, "p", "", "go build packages")
+	flag.Int64Var(&buildGap, "g", 0, "ignore all event during this gap")
 	flag.StringVar(&cmdArgs, "args", "", "app run args,separated by space. like: -args='-host=:8080  -name=demo'")
 	flag.StringVar(&excludedPattern, "x", "", "exclude modified event of specific file pattern")
 }
@@ -68,6 +70,11 @@ func main() {
 
 	//监听的文件后缀
 	cfg.WatchExts = append(cfg.WatchExts, ".go")
+
+	//命令行优先于配置文件
+	if buildGap > 0 {
+		cfg.BuildGap = buildGap
+	}
 
 	//命令行优先级大于配置文件
 	if excludedPattern != "" {

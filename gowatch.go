@@ -44,12 +44,13 @@ func NewWatcher(paths []string, files []string) {
 				}
 
 				mt := getFileModTime(e.Name)
-				if t := eventTime[e.Name]; mt == t {
+				if t := eventTime[e.Name]; mt == t || (mt-t) < cfg.BuildGap {
 					//log.Infof("[SKIP] # %s #\n", e.String())
+					// Skip build
 					isbuild = false
+				} else {
+					eventTime[e.Name] = mt
 				}
-
-				eventTime[e.Name] = mt
 
 				if isbuild {
 					go func() {
