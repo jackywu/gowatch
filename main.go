@@ -64,8 +64,7 @@ func main() {
 	}
 
 	if cmdArgs != "" {
-		cfg.CmdArgs = strings.Split(cmdArgs, " ")
-
+		cfg.CmdArgs = strings.Fields(cmdArgs)
 	}
 
 	//监听的文件后缀

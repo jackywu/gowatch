@@ -156,6 +156,7 @@ func Restart(appname string) {
 	//log.Debugf("kill running process")
 	Kill()
 	go Start(appname)
+	//Start(appname)
 }
 
 func Start(appname string) {
